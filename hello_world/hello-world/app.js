@@ -20,7 +20,8 @@ exports.lambdaHandler = async (event, context) => {
         response = {
             'statusCode': 200,
             'body': JSON.stringify({
-                message: 'Normal operation occurred!'
+                message: 'hello world',
+                // location: ret.data.trim()
             })
         }
     } catch (err) {
@@ -28,5 +29,5 @@ exports.lambdaHandler = async (event, context) => {
         return err;
     }
 
-    return response;
+    return response
 };

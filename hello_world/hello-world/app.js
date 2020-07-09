@@ -14,7 +14,8 @@ let response;
  * @returns {Object} object - API Gateway Lambda Proxy Output Format
  * 
  */
-exports.lambdaHandler = async (event, context) => {
+
+exports.lambdaHandler = async function(event, context) => {
     try {
         // const ret = await axios(url);
         response = {

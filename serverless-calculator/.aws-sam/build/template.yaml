@@ -1,0 +1,98 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: serverless-calculator
+Transform:
+- AWS::Serverless-2016-10-31
+Resources:
+  serverlessAddFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/serverless-add.serverlessAddHandler
+      Runtime: nodejs12.x
+      MemorySize: 128
+      Timeout: 100
+      Description: A Lambda function that adds two operands.
+      Events:
+        ServerlessAdd:
+          Type: Api
+          Properties:
+            Path: /add
+            Method: post
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      CodeUri: serverlessAddFunction
+  serverlessSubtractFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/serverless-subtract.serverlessSubtractHandler
+      Runtime: nodejs12.x
+      MemorySize: 128
+      Timeout: 100
+      Description: A Lambda function that subtracts two operands.
+      Events:
+        ServerlessSubtract:
+          Type: Api
+          Properties:
+            Path: /subtract
+            Method: post
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      CodeUri: serverlessSubtractFunction
+  serverlessMultiplyFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/serverless-multiply.serverlessMultiplyHandler
+      Runtime: nodejs12.x
+      MemorySize: 128
+      Timeout: 100
+      Description: A Lambda function that multiplies two operands.
+      Events:
+        ServerlessMultiply:
+          Type: Api
+          Properties:
+            Path: /multiply
+            Method: post
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      CodeUri: serverlessMultiplyFunction
+  serverlessDivideFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/serverless-divide.serverlessDivideHandler
+      Runtime: nodejs12.x
+      MemorySize: 128
+      Timeout: 100
+      Description: A Lambda function that divides two operands.
+      Events:
+        ServerlessDivide:
+          Type: Api
+          Properties:
+            Path: /divide
+            Method: post
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      CodeUri: serverlessDivideFunction
+Outputs:
+  ServerlessAddFunction:
+    Description: ServerlessAdd Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - ServerlessAddFunction
+      - Arn
+  ServerlessSubtractFunction:
+    Description: ServerlessSubtract Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - ServerlessSubtractFunction
+      - Arn
+  ServerlessMultiplyFunction:
+    Description: ServerlessMultiply Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - ServerlessMultiplyFunction
+      - Arn
+  ServerlessDivideFunction:
+    Description: ServerlessDivide Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - ServerlessDivideFunction
+      - Arn

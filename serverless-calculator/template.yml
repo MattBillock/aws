@@ -1,0 +1,127 @@
+# This is the SAM template that represents the architecture of your serverless application
+# https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-template-basics.html
+
+# The AWSTemplateFormatVersion identifies the capabilities of the template
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/format-version-structure.html
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  serverless-calculator
+
+# Transform section specifies one or more macros that AWS CloudFormation uses to process your template
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-section-structure.html
+Transform:
+- AWS::Serverless-2016-10-31
+
+Parameters:
+  ThundraAWSAccountNo:
+    Type: Number
+    Default: 269863060030
+
+  ThundraNodeLayerVersion:
+    Type: Number
+    Default: 24 # Or use any other version
+
+Globals:
+  	Function:
+      Layers:
+    	- !Sub arn:aws:lambda:${AWS::Region}:${ThundraAWSAccountNo}:layer:thundra-lambda-node-layer:${ThundraNodeLayerVersion}
+
+	…
+Globals:
+  Function:
+    Environment:
+      Variables:
+          thundra_apiKey: <your_api_key>
+
+# Resources declares the AWS resources that you want to include in the stack
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
+Resources:
+  # Each Lambda function is defined by properties:
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+
+  # This is a Lambda function config associated with the source code: hello-from-lambda.js
+  serverlessAddFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/serverless-add.serverlessAddHandler
+      Runtime: nodejs12.x
+      MemorySize: 128
+      Timeout: 100
+      Description: A Lambda function that adds two operands.
+      Events:
+        ServerlessAdd:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /add
+            Method: post
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
+
+  serverlessSubtractFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/serverless-subtract.serverlessSubtractHandler
+      Runtime: nodejs12.x
+      MemorySize: 128
+      Timeout: 100
+      Description: A Lambda function that subtracts two operands.
+      Events:
+        ServerlessSubtract:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /subtract
+            Method: post
+      Policies:
+        # Give Lambda basic execution Permission to the function
+        - AWSLambdaBasicExecutionRole
+
+  serverlessMultiplyFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/serverless-multiply.serverlessMultiplyHandler
+      Runtime: nodejs12.x
+      MemorySize: 128
+      Timeout: 100
+      Description: A Lambda function that multiplies two operands.
+      Events:
+        ServerlessMultiply:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /multiply
+            Method: post
+      Policies:
+        # Give Lambda basic execution Permission to the function
+        - AWSLambdaBasicExecutionRole
+
+  serverlessDivideFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/serverless-divide.serverlessDivideHandler
+      Runtime: nodejs12.x
+      MemorySize: 128
+      Timeout: 100
+      Description: A Lambda function that divides two operands.
+      Events:
+        ServerlessDivide:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /divide
+            Method: post
+      Policies:
+        # Give Lambda basic execution Permission to the function
+        - AWSLambdaBasicExecutionRole
+
+Outputs:
+  ServerlessAddFunction:
+    Description: "ServerlessAdd Lambda Function ARN"
+    Value: !GetAtt ServerlessAddFunction.Arn
+  ServerlessSubtractFunction:
+    Description: "ServerlessSubtract Lambda Function ARN"
+    Value: !GetAtt ServerlessSubtractFunction.Arn
+  ServerlessMultiplyFunction:
+    Description: "ServerlessMultiply Lambda Function ARN"
+    Value: !GetAtt ServerlessMultiplyFunction.Arn
+  ServerlessDivideFunction:
+    Description: "ServerlessDivide Lambda Function ARN"
+    Value: !GetAtt ServerlessDivideFunction.Arn

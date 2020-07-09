@@ -22,11 +22,10 @@ Parameters:
     Default: 24 # Or use any other version
 
 Globals:
-  	Function:
-      Layers:
-    	- !Sub arn:aws:lambda:${AWS::Region}:${ThundraAWSAccountNo}:layer:thundra-lambda-node-layer:${ThundraNodeLayerVersion}
+  Function:
+    Layers:
+    - !Sub arn:aws:lambda:${AWS::Region}:${ThundraAWSAccountNo}:layer:thundra-lambda-node-layer:${ThundraNodeLayerVersion}
 
-	…
 Globals:
   Function:
     Environment:

@@ -2,6 +2,18 @@ AWSTemplateFormatVersion: 2010-09-09
 Description: serverless-calculator
 Transform:
 - AWS::Serverless-2016-10-31
+Parameters:
+  ThundraAWSAccountNo:
+    Type: Number
+    Default: 269863060030
+  ThundraNodeLayerVersion:
+    Type: Number
+    Default: 24
+Globals:
+  Function:
+    Environment:
+      Variables:
+        thundra_apiKey: <your_api_key>
 Resources:
   serverlessAddFunction:
     Type: AWS::Serverless::Function
